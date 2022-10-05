@@ -1,5 +1,4 @@
 import com.googlecode.lanterna.TerminalSize;
-import com.googlecode.lanterna.TextCharacter;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.screen.Screen;
@@ -7,12 +6,14 @@ import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 
+//import javax.swing.text.Position;
 import java.io.IOException;
 
 public class Game {
-    private int x = 10;
-    private int y = 10;
+    Position position;
     Screen screen;
+    Hero hero;
+
 
     Game() {
         try {
@@ -25,6 +26,8 @@ public class Game {
             screen.startScreen(); // screens must be started
             screen.doResizeIfNecessary(); // resize screen if necessary
 
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -32,7 +35,8 @@ public class Game {
 
     private void draw() throws IOException {
         screen.clear();
-        screen.setCharacter(x, y, TextCharacter.fromCharacter('X')[0]);
+        hero.draw(screen);
+        //screen.setCharacter(x, y, TextCharacter.fromCharacter('X')[0]);
         screen.refresh();
     }
 
@@ -49,29 +53,29 @@ public class Game {
         }
     }
 
+    private void moveHero(Position position) {
+        hero.setPosition(position);
+    }
+
     private void processKey(KeyStroke key) throws IOException {
         System.out.println(key);
 
         switch (key.getKeyType()) {
             case ArrowUp:
-                y--;
+                moveHero(hero.moveUp());
                 break;
             case ArrowDown:
-                y++;
+                moveHero(hero.moveDown());
                 break;
             case ArrowRight:
-                x++;
+                moveHero(hero.moveRight());
                 break;
             case ArrowLeft:
-                x--;
+                moveHero(hero.moveLeft());
                 break;
         }
 
-
-        if (key.getKeyType() == KeyType.Character && key.getCharacter() == 'q') {
-            screen.close();
-        }
-
+        if (key.getKeyType() == KeyType.Character && key.getCharacter() == 'q') screen.close();
     }
 
 
