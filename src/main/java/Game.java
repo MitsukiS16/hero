@@ -1,6 +1,7 @@
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextCharacter;
 import com.googlecode.lanterna.input.KeyStroke;
+import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
@@ -19,11 +20,10 @@ public class Game {
             DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(terminalSize);
             Terminal terminal = terminalFactory.createTerminal();
 
-            Screen screen = new TerminalScreen(terminal);
+            screen = new TerminalScreen(terminal);
             screen.setCursorPosition(null); // we don't need a cursor
             screen.startScreen(); // screens must be started
             screen.doResizeIfNecessary(); // resize screen if necessary
-            KeyStroke key = screen.readInput();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -38,21 +38,22 @@ public class Game {
 
     public void run() throws IOException {
         draw();
+
+        KeyStroke key = screen.readInput();
+        processKey(key);
     }
 
     private void processKey(KeyStroke key) {
         System.out.println(key);
-
-
+/*
         if (key.getKeyType() == KeyType.ArrowUp) {
-
+QQ
         }
 
         if (key.getKeyType() == KeyType.Character && key.getCharacter() == 'q') {
 
         }
-
-
+*/
     }
 
 
