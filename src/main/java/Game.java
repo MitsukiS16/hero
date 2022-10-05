@@ -37,23 +37,41 @@ public class Game {
     }
 
     public void run() throws IOException {
-        draw();
 
-        KeyStroke key = screen.readInput();
-        processKey(key);
+        while(true) {
+            draw();
+
+            KeyStroke key = screen.readInput();
+            if(key.getKeyType() == KeyType.EOF) break;
+            processKey(key);
+
+            draw();
+        }
     }
 
-    private void processKey(KeyStroke key) {
+    private void processKey(KeyStroke key) throws IOException {
         System.out.println(key);
-/*
-        if (key.getKeyType() == KeyType.ArrowUp) {
-QQ
+
+        switch (key.getKeyType()) {
+            case ArrowUp:
+                y--;
+                break;
+            case ArrowDown:
+                y++;
+                break;
+            case ArrowRight:
+                x++;
+                break;
+            case ArrowLeft:
+                x--;
+                break;
         }
+
 
         if (key.getKeyType() == KeyType.Character && key.getCharacter() == 'q') {
-
+            screen.close();
         }
-*/
+
     }
 
 
